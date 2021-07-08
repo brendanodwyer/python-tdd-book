@@ -1,5 +1,4 @@
 import random
-from typing_extensions import runtime
 from fabric.contrib.files import append, exists
 from fabric.api import cd, env, local, run
 
