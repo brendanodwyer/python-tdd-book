@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn server for DOMAIN
+
+[Service]
+Restart=on-failure
+User=ubuntu
+WorkingDirectory=/home/ubuntu/python-tdd-book
+EnvironmentFile=/home/ubuntu/python-tdd-book/.env
+ExecStart=/home/ubuntu/python-tdd-book/venv/bin/gunicorn \
+--bind unix:/tmp/DOMAIN.socket \
+superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
