@@ -1,12 +1,14 @@
 import os
 import time
 from typing import Mapping
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase # <- like LiveServerTestCase, but magically finds `static` files
+# <- like LiveServerTestCase, but magically finds `static` files
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 
 
 MAX_WAIT = 10
+
 
 class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
@@ -25,7 +27,7 @@ class FunctionalTest(StaticLiveServerTestCase):
                 table = self.browser.find_element_by_id('id_list_table')
                 rows = table.find_elements_by_tag_name('tr')
                 self.assertIn(row_text, [row.text for row in rows])
-                return 
+                return
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:
                     raise e
