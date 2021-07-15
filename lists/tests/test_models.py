@@ -34,7 +34,7 @@ class ListModelsTest(TestCase):
         Item.objects.create(list=list_, text="bla")
         with self.assertRaises(ValidationError):
             item = Item(list=list_, text="bla")
-            item.save()
+            item.full_clean()
 
     def test_CAN_save_same_item_to_different_lists(self):
         list1 = List.objects.create()
