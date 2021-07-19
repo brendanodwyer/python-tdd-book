@@ -19,8 +19,8 @@ def send_login_email(request):
     url = request.build_absolute_uri(f"/accounts/login?uid={uid}")
     print(url)
     send_mail(
-        "Your login link for Superlists",
-        f"use this link to log in:\n\n{url}",
+        "Your login link from Superlists",
+        f"Use this link to log in:\n\n{url}",
         "noreply@superlists",
         [email],
     )
