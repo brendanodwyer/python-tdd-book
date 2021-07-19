@@ -13,7 +13,7 @@
 <body>
 <div class="container">
 
-    <div class="navbar">
+    <div class="navbar col-md-6 offset-md-3">
         {% if user.is_authenticated %}
             <p>Logged in as {{ user.email }}</p>
             <p><a id="id_logout" href="{% url 'logout' %}">Log out</a></p>

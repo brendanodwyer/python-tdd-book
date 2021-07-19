@@ -1,3 +1,5 @@
+import sys
+
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
@@ -11,6 +13,7 @@ class Token(models.Model):
 
 class ListUserManager(BaseUserManager):
     def create_user(self, email):
+        print("creating user", file=sys.stderr)
         ListUser.objects.create(email=email)
 
     def create_superuser(self, email, password):
