@@ -1,10 +1,9 @@
-from datetime import date
-from lists.forms import EMPTY_ITEM_ERROR, ItemForm, ExistingListItemForm
-from django.core.exceptions import ValidationError
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
 
-from lists.models import Item, List
+from lists.forms import ExistingListItemForm
+from lists.forms import ItemForm
+from lists.models import List
 
 
 def home_page(request):

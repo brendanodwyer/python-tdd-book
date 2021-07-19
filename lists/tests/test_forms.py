@@ -1,11 +1,11 @@
 from django.test import TestCase
-from lists.forms import (
-    DUPLICATE_ITEM_ERROR,
-    EMPTY_ITEM_ERROR,
-    ExistingListItemForm,
-    ItemForm,
-)
-from lists.models import Item, List
+
+from lists.forms import DUPLICATE_ITEM_ERROR
+from lists.forms import EMPTY_ITEM_ERROR
+from lists.forms import ExistingListItemForm
+from lists.forms import ItemForm
+from lists.models import Item
+from lists.models import List
 
 
 class ItemFormTest(TestCase):
@@ -17,7 +17,6 @@ class ItemFormTest(TestCase):
 
     def test_form_validation_for_blank_items(self):
         form = ItemForm(data={"text": ""})
-
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors["text"], [EMPTY_ITEM_ERROR])
 
