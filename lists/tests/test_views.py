@@ -1,13 +1,12 @@
-from unittest import skip
 from django.test import TestCase
 from django.utils.html import escape
-from lists.models import Item, List
-from lists.forms import (
-    EMPTY_ITEM_ERROR,
-    ExistingListItemForm,
-    ItemForm,
-    DUPLICATE_ITEM_ERROR,
-)
+
+from lists.forms import DUPLICATE_ITEM_ERROR
+from lists.forms import EMPTY_ITEM_ERROR
+from lists.forms import ExistingListItemForm
+from lists.forms import ItemForm
+from lists.models import Item
+from lists.models import List
 
 
 class HomePageTest(TestCase):
@@ -63,6 +62,7 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         response = self.client.get(f"/lists/{correct_list.id}/")
         self.assertEquals(response.context["list"], correct_list)
+        self.assertNotEquals(response.context["list", other_list])
 
     def test_displays_only_items_for_that_list(self):
         correct_list = List.objects.create()
@@ -95,7 +95,7 @@ class ListViewTest(TestCase):
         self.assertNotEqual(new_item.list, other_list)
 
     def test_POST_redirects_to_list_view(self):
-        other_list = List.objects.create()
+        other_list = List.objects.create()  # noqa: F841
         correct_list = List.objects.create()
 
         response = self.client.post(
@@ -134,7 +134,7 @@ class ListViewTest(TestCase):
 
     def test_duplicate_item_validation_errors_end_up_on_lists_page(self):
         list1 = List.objects.create()
-        item1 = Item.objects.create(list=list1, text="textey")
+        item1 = Item.objects.create(list=list1, text="textey")  # noqa: F841
         response = self.client.post(f"/lists/{list1.id}/", data={"text": "textey"})
 
         expected_error = escape(DUPLICATE_ITEM_ERROR)

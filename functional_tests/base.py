@@ -1,11 +1,11 @@
 import os
 import time
-from typing import Mapping
 
-# <- like LiveServerTestCase, but magically finds `static` files
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+
+# <- like LiveServerTestCase, but magically finds `static` files
 
 
 MAX_WAIT = 10

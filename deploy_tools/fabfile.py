@@ -1,6 +1,11 @@
 import random
-from fabric.contrib.files import append, exists
-from fabric.api import cd, env, local, run
+
+from fabric.api import cd
+from fabric.api import env
+from fabric.api import local
+from fabric.api import run
+from fabric.contrib.files import append
+from fabric.contrib.files import exists
 
 REPO_URL = "https://github.com/brendanodwyer/python-tdd-book.git"
 
@@ -27,7 +32,7 @@ def _get_latest_source():
 
 def _update_virtualenv():
     if not exists("virtualenv/bin/pip"):
-        run(f"python3.8 -m venv virtualenv")
+        run("python3.8 -m venv virtualenv")
     run("./virtualenv/bin/pip install --upgrade pip")
     run("./virtualenv/bin/pip install -r requirements.txt")
 
