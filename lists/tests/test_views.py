@@ -62,7 +62,7 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         response = self.client.get(f"/lists/{correct_list.id}/")
         self.assertEquals(response.context["list"], correct_list)
-        self.assertNotEquals(response.context["list", other_list])
+        self.assertNotEquals(response.context["list"], other_list)
 
     def test_displays_only_items_for_that_list(self):
         correct_list = List.objects.create()
@@ -104,6 +104,8 @@ class ListViewTest(TestCase):
         )
 
         self.assertRedirects(response, f"/lists/{correct_list.id}/")
+        with self.assertRaises(AssertionError):
+            self.assertRedirects(response, f"/lists/{other_list.id}/")
 
     def test_displays_item_form(self):
         list_ = List.objects.create()
