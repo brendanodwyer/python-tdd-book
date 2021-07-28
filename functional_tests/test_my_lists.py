@@ -1,8 +1,11 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 from .base import FunctionalTest
 from .management.commands.create_session import create_pre_authenticated_session
 from .server_tools import create_session_on_server
+
+User = get_user_model()
 
 
 class MyListsTest(FunctionalTest):
@@ -57,3 +60,10 @@ class MyListsTest(FunctionalTest):
     def test_my_lists_url_renders_my_lists_template(self):
         response = self.client.get("/lists/users/a@b.com/")
         self.assertTemplateUsed(response, "my_lists.html")
+
+    def test_passes_correct_owner_to_template(self):
+        wrong_user = User.objects.create(email="wrong@owner.com")
+        correct_user = User.objects.create(email="a@b.com")
+        response = self.client.get("/lists/users/a@b.com/")
+        self.assertEqual(response.context.get("owner"), correct_user)
+        self.assertNotEquals(response.context.get("owner"), wrong_user)
