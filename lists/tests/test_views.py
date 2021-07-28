@@ -154,3 +154,16 @@ class ListViewTest(TestCase):
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, "list.html")
         self.assertEqual(Item.objects.all().count(), 1)
+
+
+class MyListsTest(TestCase):
+    def test_my_lists_url_renders_my_lists_template(self):
+        response = self.client.get("/lists/users/a@b.com/")
+        self.assertTemplateUsed(response, "my_lists.html")
+
+    def test_passes_correct_owner_to_template(self):
+        wrong_user = User.objects.create(email="wrong@owner.com")
+        correct_user = User.objects.create(email="a@b.com")
+        response = self.client.get("/lists/users/a@b.com/")
+        self.assertEqual(response.context.get("owner"), correct_user)
+        self.assertNotEquals(response.context.get("owner"), wrong_user)
