@@ -1,3 +1,4 @@
+import os
 import random
 
 from fabric.api import cd
@@ -19,6 +20,7 @@ def deploy():
         _create_or_update_dotenv()
         _update_static_files()
         _update_database()
+        _reload_site()
 
 
 def _get_latest_source():
@@ -46,6 +48,8 @@ def _create_or_update_dotenv():
             random.SystemRandom().choices("abcdefghijklmnopqrstuvwxyz0123456789", k=50)
         )
         append(".env", f"DJANGO_SECRET_KEY={new_secret}")
+    email_password = os.environ.get("EMAIL_PASSWORD")
+    append(".env", f"EMAIL_PASSWORD={email_password}")
 
 
 def _update_static_files():
@@ -54,3 +58,8 @@ def _update_static_files():
 
 def _update_database():
     run("./virtualenv/bin/python manage.py migrate --noinput")
+
+
+def _reload_site():
+    run("sudo systemctl daemon-reload")
+    run(f"sudo systemctl restart gunicorn-{env.host}.service")

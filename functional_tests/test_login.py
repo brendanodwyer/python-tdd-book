@@ -24,7 +24,7 @@ class LoginTest(FunctionalTest):
         inbox = poplib.POP3_SSL("pop.gmail.com")
         try:
             inbox.user(test_email)
-            inbox.pass_(os.environ["EMAIL_RECEIVER_PASSWORD"])
+            inbox.pass_(os.environ.get("EMAIL_RECEIVER_PASSWORD"))
             while (time.time() - start) < 60:
                 # get 10 new messages
                 count, _ = inbox.stat()
